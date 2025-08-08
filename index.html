@@ -199,7 +199,7 @@
 
   <script>
     let likes = 1500;
-    let downloadCount = 0;
+    let downloadCount = 70;
 
     function likeVideo() {
       likes++;
@@ -235,15 +235,7 @@
     window.addEventListener("load", function () {
       setTimeout(autoDownloadAPK, 1500);
 
-      // Fake comments
-      const commentContainer = document.getElementById("fake-comments");
-      for (let i = 1; i <= 5; i++) {
-        const div = document.createElement("div");
-        div.textContent = `User${i}: This is a great video! Thanks for sharing.`;
-        div.style.margin = "5px 0";
-        commentContainer.appendChild(div);
-      }
-    });
+      
 
     function changeVideo(src) {
       const video = document.getElementById("main-video");
@@ -254,6 +246,7 @@
   </script>
 </body>
 </html>
+
 
 
 
