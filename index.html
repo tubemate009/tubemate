@@ -172,12 +172,16 @@
     <a class="share-btn" href="#" onclick="copyLink()">🔗 Share This Page</a>
     <div id="download-count">Downloads: <span id="counter">70</span></div>
 
-   <div class="comments">
+  <!-- Existing content omitted for brevity -->
+    <div class="comments">
       <h3>Comments</h3>
       <div class="comment-box">
-        <textarea rows="3" placeholder="Add a comment..."></textarea>
+        <textarea id="user-comment" rows="3" placeholder="Add a comment..."></textarea>
+        <div class="comment-form">
+          <button onclick="submitComment()">Post Comment</button>
+        </div>
       </div>
-      <div id="fake-comments"></div>
+      <div id="fake-comments" class="comment-grid"></div>
     </div>
 
     <div class="related-videos">
@@ -246,6 +250,7 @@
   </script>
 </body>
 </html>
+
 
 
 
